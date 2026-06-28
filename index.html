@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<link rel="icon" type="image/png" href="icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vyyo.gg - Talente &amp; Events</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#130A1C;            /* dark aubergine / purple-black */
+    --surface:#1D1329;
+    --ink:#F3EDF8;           /* light text */
+    --purple:#8B00C0;        /* main hue RGB(139,0,192) */
+    --purple-bright:#C160F0; /* accent on dark */
+    --purple-hover:#A11FD8;
+    --muted:#A99CB5;
+    --line:rgba(243,237,248,.10);
+    --maxw:1120px;
+    --ease:cubic-bezier(.22,.61,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"Manrope",system-ui,sans-serif;
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;
+  }
+  body::before{
+    content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+    width:1000px;height:700px;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(139,0,192,.20),transparent 65%);filter:blur(20px);
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px}
+  h1,h2,h3{font-family:"Sora",sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--purple-bright)}
+
+  /* header */
+  header.site{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s var(--ease),box-shadow .4s,backdrop-filter .4s}
+  header.site.scrolled{background:rgba(19,10,28,.78);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:78px}
+  .brand{font-family:"Sora",sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em}
+  .brand .amp{color:var(--purple-bright)}
+  .nav-links{display:flex;align-items:center;gap:36px}
+  .nav-links a{font-size:15px;color:var(--muted);transition:color .25s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-toggle{display:none;background:none;border:0;color:var(--ink);cursor:pointer;padding:8px}
+  .nav-toggle svg{width:26px;height:26px}
+
+  .btn{
+    font-family:"Manrope",sans-serif;font-weight:600;font-size:15px;
+    padding:14px 28px;border-radius:999px;cursor:pointer;display:inline-block;
+    background:var(--purple);color:#fff;border:1px solid transparent;
+    transition:transform .25s var(--ease),box-shadow .25s,background .25s,border-color .25s;
+  }
+  .btn:hover{transform:translateY(-2px);background:var(--purple-hover);box-shadow:0 14px 38px -12px rgba(139,0,192,.7)}
+  .btn-ghost{background:transparent;border-color:var(--line);color:var(--ink)}
+  .btn-ghost:hover{background:rgba(193,96,240,.10);border-color:var(--purple-bright);box-shadow:none}
+
+  /* hero */
+  .hero{position:relative;padding:200px 0 150px;overflow:hidden}
+  .hero-glow{position:absolute;top:-100px;right:-140px;width:620px;height:620px;border-radius:50%;z-index:0;pointer-events:none;background:radial-gradient(circle at center,rgba(193,96,240,.28),transparent 65%);filter:blur(20px)}
+  .hero .wrap{position:relative;z-index:1}
+  .hero h1{font-size:clamp(2.8rem,7.5vw,5.8rem);max-width:14ch;margin:26px 0 0}
+  .hero h1 .accent{color:var(--purple-bright)}
+  .hero p{font-size:clamp(1.05rem,2vw,1.3rem);color:var(--muted);max-width:560px;margin:30px 0 0}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:42px}
+
+  /* approach */
+  .approach{padding:60px 0 40px;position:relative;z-index:1}
+  .approach-grid{display:grid;grid-template-columns:300px 1fr;gap:70px;align-items:start}
+  .approach-grid > h2{font-size:clamp(1.9rem,3.6vw,2.7rem);position:sticky;top:120px}
+  .points{display:flex;flex-direction:column;gap:54px}
+  .point .lbl{font-size:13px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple-bright)}
+  .point h3{font-size:1.6rem;margin:12px 0 14px}
+  .point p{color:var(--muted);font-size:16.5px;max-width:60ch}
+
+  /* talents */
+  .talents{padding:130px 0 40px;position:relative;z-index:1}
+  .sec-head{margin-bottom:48px}
+  .sec-head h2{font-size:clamp(2.1rem,4.6vw,3.4rem);margin-top:16px}
+
+  /* talents carousel */
+  .talent-carousel{position:relative}
+  .car-controls{display:flex;align-items:center;justify-content:flex-end;gap:16px;margin-bottom:34px}
+  .car-count{font-family:"Sora",sans-serif;font-weight:700;font-size:15px;letter-spacing:.10em;color:var(--muted);min-width:70px;text-align:center}
+  .car-count b{color:var(--purple-bright)}
+  .car-arrow{width:54px;height:54px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:transform .25s var(--ease),border-color .25s,background .25s}
+  .car-arrow svg{width:22px;height:22px}
+  .car-arrow:hover{border-color:var(--purple-bright);background:rgba(193,96,240,.10);transform:translateY(-2px)}
+  .car-arrow:active{transform:translateY(0)}
+
+  .carousel-viewport{overflow:hidden}
+  .carousel-track{display:flex;transition:transform .6s var(--ease)}
+  .slide{flex:0 0 100%;min-width:100%;padding-bottom:8px}
+
+  .talent-intro{max-width:760px;margin-bottom:40px}
+  .talent-intro h3{font-size:clamp(2.4rem,5.5vw,3.8rem);color:var(--purple-bright)}
+  .talent-intro .spec{font-size:15px;font-weight:600;letter-spacing:.04em;color:var(--ink);margin-top:10px;opacity:.6}
+  .talent-intro p{color:var(--muted);font-size:16.5px;margin-top:20px}
+
+  /* Masonry-Galerie: Bilder behalten ihr natürliches Seitenverhältnis -> nichts wird abgeschnitten */
+  .gallery{columns:3;column-gap:16px}
+  .gallery.cols-1{columns:1}
+  .gallery.cols-2{columns:2}
+  .gallery.cols-3{columns:3}
+  /* Sonderlayout: 3 Bilder oben, das 4. mittig darunter ((leer) 1 (leer)) */
+  .gallery.grid-3{columns:auto;column-count:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;align-items:start}
+  .gallery.grid-3 .shot{margin:0}
+  .gallery.grid-3 .shot:nth-child(4){grid-column:2}
+  .shot{position:relative;border-radius:8px;overflow:hidden;background:var(--surface);break-inside:avoid;-webkit-column-break-inside:avoid;margin:0 0 16px}
+  .shot .fill{width:100%;height:auto;display:block;transition:transform .6s var(--ease)}
+  .shot:hover .fill{transform:scale(1.04)}
+
+  /* dezenter Copyright-Hinweis am Bild */
+  .credit{
+    position:absolute;right:8px;bottom:8px;z-index:2;
+    display:inline-flex;align-items:center;gap:5px;max-width:78%;
+    font-family:"Manrope",sans-serif;font-size:11px;line-height:1;letter-spacing:.01em;
+    padding:5px 9px;border-radius:999px;
+    background:rgba(10,5,16,.5);backdrop-filter:blur(7px);
+    border:1px solid rgba(243,237,248,.14);
+    color:rgba(243,237,248,.75);
+    opacity:.45;transition:opacity .3s var(--ease),color .25s;
+  }
+  .shot:hover .credit,.credit:focus-within{opacity:1}
+  .credit .c-sym{opacity:.85}
+  .credit .c-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .credit a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:rgba(243,237,248,.35)}
+  .credit a:hover{color:var(--purple-bright);text-decoration-color:currentColor}
+  .p1{background:linear-gradient(140deg,#8B00C0,#C160F0)}
+  .p2{background:linear-gradient(140deg,#4A0070,#8B00C0)}
+  .p3{background:linear-gradient(140deg,#B14FE0,#E68AD8)}
+  .p4{background:linear-gradient(140deg,#2A0840,#8B00C0)}
+  .p5{background:linear-gradient(140deg,#8B00C0,#5E3CD0)}
+  .p6{background:linear-gradient(140deg,#5A1A80,#C25FE0)}
+
+  .car-dots{display:flex;justify-content:center;gap:10px;margin-top:48px}
+  .dot{width:9px;height:9px;border-radius:50%;border:0;background:var(--line);cursor:pointer;padding:0;transition:background .25s,transform .25s}
+  .dot.active{background:var(--purple-bright);transform:scale(1.25)}
+
+  /* cta */
+  .cta{padding:140px 0;text-align:center;position:relative;overflow:hidden;z-index:1}
+  .cta-glow{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:680px;height:440px;z-index:0;pointer-events:none;background:radial-gradient(ellipse at center,rgba(193,96,240,.20),transparent 65%);filter:blur(16px)}
+  .cta .wrap{position:relative;z-index:1}
+  .cta h2{font-size:clamp(2.1rem,5vw,3.6rem);max-width:18ch;margin:16px auto 0}
+  .cta .btn{margin-top:36px}
+
+  /* impressum */
+  .impressum{padding:120px 0 40px;position:relative;z-index:1;border-top:1px solid var(--line)}
+  .impressum h2{font-size:clamp(1.9rem,4vw,2.8rem);margin:14px 0 50px}
+  .imp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 60px;max-width:880px}
+  .imp-block h3{font-family:"Sora",sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple-bright);margin-bottom:12px}
+  .imp-block p{color:var(--muted);font-size:16px;line-height:1.7}
+  .imp-block a{color:var(--ink)}
+  .imp-block a:hover{color:var(--purple-bright)}
+  .imp-note{grid-column:1/-1;color:var(--muted);font-size:14.5px;line-height:1.7;max-width:760px;padding-top:8px;border-top:1px solid var(--line);margin-top:8px}
+
+  /* footer */
+  footer.site{border-top:1px solid var(--line);padding:40px 0;position:relative;z-index:1}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;color:var(--muted);font-size:14.5px}
+  .foot a:hover{color:var(--purple-bright)}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:880px){
+    .nav-links{position:fixed;inset:78px 0 auto 0;flex-direction:column;gap:0;background:rgba(19,10,28,.98);backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line);max-height:0;overflow:hidden;transition:max-height .4s var(--ease)}
+    .nav-links.open{max-height:280px}
+    .nav-links a{padding:17px 30px;width:100%;border-top:1px solid var(--line);font-size:16px}
+    .nav-toggle{display:block}
+    .approach-grid{grid-template-columns:1fr;gap:36px}
+    .approach-grid > h2{position:static}
+    .gallery{columns:2}
+    .gallery.cols-1{columns:1}
+    .gallery.cols-2{columns:2}
+    .gallery.cols-3{columns:2}
+  }
+  @media(max-width:680px){
+    .imp-grid{grid-template-columns:1fr}
+  }
+  @media(max-width:540px){
+    .gallery,.gallery.cols-1,.gallery.cols-2,.gallery.cols-3{columns:1}
+    .gallery.grid-3{grid-template-columns:1fr}
+    .gallery.grid-3 .shot:nth-child(4){grid-column:auto}
+  }
+  :focus-visible{outline:2px solid var(--purple-bright);outline-offset:3px;border-radius:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto}.reveal{opacity:1;transform:none}.carousel-track{transition:none!important}}
+</style>
+</head>
+<body id="top">
+
+<header class="site" id="head">
+  <div class="wrap nav">
+    <a href="#top" class="brand">vyyo<span class="amp">.</span>gg</a>
+    <nav class="nav-links" id="menu">
+      <a href="#ansatz">Ansatz</a>
+      <a href="#talents">Talents</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <button class="nav-toggle" id="toggle" aria-label="Menü" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="wrap">
+      <span class="eyebrow">Talente &amp; Events</span>
+      <h1>Nicht einfach vermitteln - <span class="accent">gemeinsam umsetzen.</span></h1>
+      <p>Jede Zusammenarbeit ist anders. Wir nehmen uns Zeit für die Planung, sprechen persönlich alles durch und sorgen dafür, dass am Ende einfach alles zusammenpasst. Und wenn der Vibe einfach nicht stimmen will, sagen wir auch gerne frühzeitig "nein danke" - besser für alle Seiten, ohne Bullshit.</p>
+      <div class="hero-cta">
+        <a href="#talents" class="btn">Talents ansehen</a>
+        <a href="#kontakt" class="btn btn-ghost">Event anfragen</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANSATZ -->
+  <section class="approach" id="ansatz">
+    <div class="wrap approach-grid">
+      <h2 class="reveal">Gute Betreuung macht den Unterschied.</h2>
+      <div class="points">
+        <div class="point reveal">
+          <span class="lbl">Individuell</span>
+          <h3>Persönlich statt Standard.</h3>
+          <p>Kein Kunde und kein Event sind gleich. Wir planen jedes Projekt individuell und finden gemeinsam die Lösung, die wirklich passt - ob Werbedeal, kleines Store-Event, Messeauftritt, oder große Gaming-Show.</p>
+        </div>
+        <div class="point reveal">
+          <span class="lbl">Betreuung</span>
+          <h3>Kein Statist im Kostüm.</h3>
+          <p>Cosplayer und Influencer allgemein repräsentieren nicht bloß eine Marke, sondern oft eine ganze Community. Deshalb gibt es bei uns vernünftige Briefings, persönliche Betreuung und klare Absprachen - damit sich unsere Talents voll auf ihren Auftritt konzentrieren können.</p>
+        </div>
+        <div class="point reveal">
+          <span class="lbl">Netzwerk</span>
+          <h3>Das richtige Netzwerk inklusive.</h3>
+          <p>Über die Jahre haben wir ein starkes Netzwerk aufgebaut - Veranstalter und Locations über Gaming-Publisher bis hin zu Produktionen. Wird etwas gebraucht, kennen wir meistens schon die richtigen Leute. Und die uns.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TALENTS -->
+  <section class="talents" id="talents">
+    <div class="wrap">
+      <div class="sec-head reveal">
+        <span class="eyebrow">Die Talents</span>
+        <h2>Im Rampenlicht.</h2>
+      </div>
+
+      <div class="talent-carousel reveal" aria-roledescription="Karussell" aria-label="Unsere Talents">
+        <div class="car-controls">
+          <button class="car-arrow" id="carPrev" aria-label="Vorheriges Talent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+          </button>
+          <div class="car-count" aria-hidden="true"><b id="carCur">01</b> / <span id="carTotal">02</span></div>
+          <button class="car-arrow" id="carNext" aria-label="Nächstes Talent">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+          </button>
+        </div>
+
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="talentTrack">
+
+          </div>
+        </div>
+
+        <div class="car-dots" id="carDots" role="tablist" aria-label="Talent auswählen"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="kontakt">
+    <div class="cta-glow"></div>
+    <div class="wrap">
+      <span class="eyebrow">Lass uns reden</span>
+      <h2>Lass uns deine nächste Idee gemeinsam umsetzen.</h2>
+      <a href="mailto:info@vyyo.gg" class="btn">info@vyyo.gg</a>
+    </div>
+  </section>
+
+  <!-- IMPRESSUM -->
+  <section class="impressum" id="impressum">
+    <div class="wrap">
+      <span class="eyebrow">Rechtliches</span>
+      <h2>Impressum</h2>
+      <div class="imp-grid">
+        <div class="imp-block">
+          <h3>Angaben gemäß § 5 DDG</h3>
+          <p>Vyyo GmbH<br>Jakobstr. 228<br>52064 Aachen<br>Deutschland</p>
+        </div>
+        <div class="imp-block">
+          <h3>Vertreten durch</h3>
+          <p>Geschäftsführer:<br>Dr. Tim Elsner</p>
+        </div>
+        <div class="imp-block">
+          <h3>Kontakt</h3>
+          <p>Telefon: +49 177 1426998<br>E-Mail: <a href="mailto:info@vyyo.gg">info@vyyo.gg</a></p>
+        </div>
+        <div class="imp-block">
+          <h3>Registereintrag</h3>
+          <p>Eintragung im Handelsregister<br>Registergericht: Amtsgericht Aachen<br>Registernummer: HRB 29616</p>
+        </div>
+        <div class="imp-block">
+          <h3>Umsatzsteuer-ID</h3>
+          <p>Umsatzsteuer-Identifikationsnummer<br>gemäß § 27a UStG: DE461167706</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <span>© 2026 Vyyo.gg</span>
+    <a href="mailto:info@vyyo.gg">info@vyyo.gg</a>
+    <span><a href="#impressum">Impressum</a> · <a href="#">Datenschutz</a></span>
+  </div>
+</footer>
+
+<script>
+  var head=document.getElementById('head');
+  function onScroll(){head.classList.toggle('scrolled',window.scrollY>20);}
+  onScroll();window.addEventListener('scroll',onScroll,{passive:true});
+
+  var toggle=document.getElementById('toggle'),menu=document.getElementById('menu');
+  toggle.addEventListener('click',function(){
+    var open=menu.classList.toggle('open');
+    toggle.setAttribute('aria-expanded',open);
+  });
+  menu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){menu.classList.remove('open');});});
+
+  /* ---- Talents dynamisch erzeugen (randomisiertes Layout + Copyright) ---- */
+  (function(){
+    var track=document.getElementById('talentTrack');
+    if(!track)return;
+
+    // Künstler-Daten
+    var TALENTS=[
+      /*{
+        name:"Drachenlord",
+        spec:["Ofenkäse","Home Defense","Metal"],
+        text:"Drachenlord kam mit 100 Sachen 80 in die Creator-Szene, angefangen mit Metal-Videos. Später war er für die sponanten Mett-and-Greets mit seinen Fans am Altschauerberg bekannt und wechselte dann zum Obdachlosen-Survival.",
+        images:[
+          {src:"rainer.png",credit:{name:"ZackBoom",url:"https://www.instagram.com/zackboom_photography/"}},
+        ]
+      },*/
+      {
+        name:"Krystl Cosplay",
+        spec:["Näharbeiten","Perücken-Styling","Cosplay"],
+        layout:"grid-3-center",
+        text:"Krystl Cosplay ist seit über 15 Jahren ein wichtiger Teil der Cosplay-Community. Ihr Fachbereich sind vor allem aufwändige und saubere Näharbeiten sowie Perücken-Stylings. Ihr Können in diesen Bereichen hat sie bereits diverse Platzierungen bei verschiedenen Meisterschaften gewinnen lassen. Mittlerweile stellt sie ihre Expertise für viele Meisterschaften als Juror zur Verfügung. Desweiteren hat sie bereits an vielen offiziellen Kostümen für nationale und internationale Kunden mitgewirkt.",
+        images:[
+          {src:"images/krystal/1.jpg",credit:{name:"ZackBoom",url:"https://www.instagram.com/zackboom_photography/"}},
+          {src:"images/krystal/2.jpg",credit:{name:"colourena",url:"https://www.instagram.com/colourena/"}},
+          {src:"images/krystal/3.jpg",credit:{name:"ZackBoom",url:"https://www.instagram.com/zackboom_photography/"}},
+          {src:"images/krystal/4.jpg",credit:{name:"Pixelrabe",url:"https://www.pixelrabe.de/"}}
+        ]
+      },
+      {
+        name:"Nils Beardfoot",
+        spec:["Lederverarbeitung","Rüstungsbau","Fantasy"],
+        text:"Nils Beardfoot ist der Meister, wenn es um die Verarbeitung von Leder geht. Egal welche Form, Farbe oder was für ein Design, für ihn kein Problem. Seit mehreren Jahren bringt er mit seinem einzigartigen Stil einen frischen Wind in die Cosplay-Community und hat es auch geschafft, mit seinen beeindruckenden Kreationen diverse Wettbewerbe zu gewinnen und durfte auch schon seine Expertise als Juror unter Beweis stellen.",
+        images:[
+          {src:"images/nils/1.jpg",credit:{name:"theoptimisticfilmmaker",url:"https://www.instagram.com/theoptimisticfilmmaker/"}},
+          {src:"images/nils/2.jpg",credit:{name:"theoptimisticfilmmaker",url:"https://www.instagram.com/theoptimisticfilmmaker/"}}
+        ]
+      },
+      {
+        name:"Frosty Insanity",
+        spec:["Pyrotechniker","3D-Druck","Propbau"],
+        text:"Frosty Insanity steht ein wenig im Kontrast zu seinem Namen. Als Pyrotechniker bleibt es in seiner Gegenwart selten kalt. Zudem kombiniert er Kostüm- und Propbau auf einzigartige Art und Weise mit Pyrotechnik und erschafft somit immersive und atemberaubende Kunstwerke.",
+        images:[
+          {src:"images/frosty/1.jpg"},
+          {src:"images/frosty/2.jpg"},
+          {src:"images/frosty/3.jpg"},
+          {src:"images/frosty/4.jpg"}
+        ]
+      },
+      {
+        name:"Pixelrabe",
+        spec:["Fotografie","Bildbearbeitung"],
+        text:"Pixelrabe zaubert einzigartige Bilder mit ausdrucksstarker Stimmung. Egal ob individuelles Shooting oder ein Stand auf einer Messe, bei dem jeder Besucher ein Bild machen kann, es entsteht jedesmal ein beeindruckendes Bild. Mittlerweile ist er aus der Cosplay-Community nicht mehr wegzudenken und bereichert diese enorm.",
+        images:[
+          {src:"images/raabe/1.jpg"},{src:"images/raabe/2.jpg"},{src:"images/raabe/3.jpg"},
+          {src:"images/raabe/4.jpg"},{src:"images/raabe/5.png"},{src:"images/raabe/6.jpg"}
+        ]
+      }
+    ];
+
+    function shuffle(a){
+      a=a.slice();
+      for(var i=a.length-1;i>0;i--){
+        var j=Math.floor(Math.random()*(i+1));
+        var t=a[i];a[i]=a[j];a[j]=t;
+      }
+      return a;
+    }
+
+    function creditEl(credit,name,nr){
+      var c=document.createElement('div');
+      c.className='credit';
+      var sym=document.createElement('span');
+      sym.className='c-sym';sym.textContent='©';
+      c.appendChild(sym);
+      var who=document.createElement('span');
+      who.className='c-name';
+      if(credit.url){
+        var a=document.createElement('a');
+        a.href=credit.url;a.target='_blank';a.rel='noopener noreferrer';
+        a.textContent=credit.name;
+        a.setAttribute('aria-label','Foto: '+credit.name+' (öffnet in neuem Tab)');
+        who.appendChild(a);
+      }else{
+        who.textContent=credit.name;
+      }
+      c.appendChild(who);
+      return c;
+    }
+
+    function buildSlide(t){
+      var art=document.createElement('article');
+      art.className='slide';
+      art.setAttribute('role','group');
+      art.setAttribute('aria-roledescription','Talent');
+      art.setAttribute('aria-label',t.name);
+
+      var intro=document.createElement('div');
+      intro.className='talent-intro';
+      var h3=document.createElement('h3');h3.textContent=t.name;
+      var spec=document.createElement('div');spec.className='spec';
+      spec.textContent=t.spec.join(' · ');
+      var p=document.createElement('p');p.textContent=t.text;
+      intro.appendChild(h3);intro.appendChild(spec);intro.appendChild(p);
+
+      var gal=document.createElement('div');
+      gal.className='gallery';
+
+      var imgs=t.images;
+      if(t.layout==='grid-3-center'){
+        gal.classList.add('grid-3');
+      }else{
+        gal.classList.add('cols-'+Math.min(3,imgs.length));
+      }
+
+      imgs.forEach(function(im,i){
+        var shot=document.createElement('div');
+        shot.className='shot';
+
+        var img=document.createElement('img');
+        img.className='fill';
+        img.src=im.src;
+        img.loading='lazy';
+        img.decoding='async';
+        img.alt=t.name+' – Foto '+(i+1);
+        shot.appendChild(img);
+
+        if(im.credit){shot.appendChild(creditEl(im.credit,t.name,i+1));}
+        gal.appendChild(shot);
+      });
+
+      art.appendChild(intro);
+      art.appendChild(gal);
+      return art;
+    }
+
+    shuffle(TALENTS).forEach(function(t){track.appendChild(buildSlide(t));});
+  })();
+
+  /* ---- Talents-Karussell ---- */
+  (function(){
+    var track=document.getElementById('talentTrack');
+    if(!track)return;
+    var slides=Array.prototype.slice.call(track.children);
+    var prev=document.getElementById('carPrev');
+    var next=document.getElementById('carNext');
+    var cur=document.getElementById('carCur');
+    var total=document.getElementById('carTotal');
+    var dotsWrap=document.getElementById('carDots');
+    var idx=0;
+    var pad=function(n){return n<10?'0'+n:''+n;};
+
+    total.textContent=pad(slides.length);
+
+    // Punkte aufbauen
+    slides.forEach(function(_,i){
+      var b=document.createElement('button');
+      b.className='dot'+(i===0?' active':'');
+      b.setAttribute('role','tab');
+      b.setAttribute('aria-label','Talent '+(i+1));
+      b.addEventListener('click',function(){go(i);});
+      dotsWrap.appendChild(b);
+    });
+    var dots=Array.prototype.slice.call(dotsWrap.children);
+
+    function go(i){
+      idx=(i+slides.length)%slides.length;
+      track.style.transform='translateX(-'+(idx*100)+'%)';
+      cur.textContent=pad(idx+1);
+      dots.forEach(function(d,di){
+        d.classList.toggle('active',di===idx);
+        d.setAttribute('aria-selected',di===idx);
+      });
+      slides.forEach(function(s,si){s.setAttribute('aria-hidden',si!==idx);});
+    }
+
+    prev.addEventListener('click',function(){go(idx-1);});
+    next.addEventListener('click',function(){go(idx+1);});
+
+    // Tastatur (Pfeiltasten, wenn Karussell im Fokus-Bereich)
+    var carousel=track.closest('.talent-carousel');
+    carousel.addEventListener('keydown',function(e){
+      if(e.key==='ArrowLeft'){go(idx-1);}
+      else if(e.key==='ArrowRight'){go(idx+1);}
+    });
+
+    // Wischen auf Touch
+    var x0=null;
+    track.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;},{passive:true});
+    track.addEventListener('touchend',function(e){
+      if(x0===null)return;
+      var dx=e.changedTouches[0].clientX-x0;
+      if(Math.abs(dx)>45){dx<0?go(idx+1):go(idx-1);}
+      x0=null;
+    },{passive:true});
+
+    go(0);
+  })();
+
+  /* ---- Reveal beim Scrollen ---- */
+  var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(!reduce){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});
+    },{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
+  }else{
+    document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in');});
+  }
+</script>
+</body>
+</html>
