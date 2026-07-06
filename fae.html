@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<link rel="icon" type="image/png" href="icon.png">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Impressum – Vyyo.gg</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#130A1C;
+    --surface:#1D1329;
+    --ink:#F3EDF8;
+    --purple-bright:#C160F0;
+    --muted:#A99CB5;
+    --line:rgba(243,237,248,.10);
+    --maxw:920px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:"Manrope",system-ui,sans-serif;
+    font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;
+    min-height:100vh;display:flex;flex-direction:column;position:relative;overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+    width:900px;height:600px;z-index:0;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(139,0,192,.20),transparent 65%);filter:blur(20px);
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 30px;width:100%;position:relative;z-index:1}
+  h1,h2,h3{font-family:"Sora",sans-serif;font-weight:800;line-height:1.05;letter-spacing:-.02em}
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--purple-bright)}
+
+  header.site{padding:40px 0;position:relative;z-index:1}
+  .brand{font-family:"Sora",sans-serif;font-weight:800;font-size:21px;letter-spacing:-.01em}
+  .brand .amp{color:var(--purple-bright)}
+
+  main{flex:1;display:flex;align-items:center;padding:40px 0 80px}
+  .impressum h1{font-size:clamp(1.9rem,4vw,2.8rem);margin:14px 0 50px}
+  .imp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:40px 60px}
+  .imp-block h3{font-family:"Sora",sans-serif;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--purple-bright);margin-bottom:12px}
+  .imp-block p{color:var(--muted);font-size:16px;line-height:1.7}
+  .imp-block a{color:var(--ink)}
+  .imp-block a:hover{color:var(--purple-bright)}
+
+  footer.site{border-top:1px solid var(--line);padding:32px 0;position:relative;z-index:1}
+  .foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:18px;color:var(--muted);font-size:14.5px}
+  .foot a:hover{color:var(--purple-bright)}
+
+  @media(max-width:680px){.imp-grid{grid-template-columns:1fr}}
+  :focus-visible{outline:2px solid var(--purple-bright);outline-offset:3px;border-radius:3px}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <a href="/" class="brand">vyyo<span class="amp">.</span>gg</a>
+  </div>
+</header>
+
+<main>
+  <section class="impressum">
+    <div class="wrap">
+      <span class="eyebrow">Rechtliches</span>
+      <h1>Impressum</h1>
+      <div class="imp-grid">
+        <div class="imp-block">
+          <h3>Angaben gemäß § 5 DDG</h3>
+		  <p>Nihilisticfae<br>c/o Vyyo GmbH<br>Jakobstr. 228<br>52064 Aachen<br>Deutschland</p>
+        </div>
+        <div class="imp-block">
+          <h3>Vertreten durch</h3>
+          <p>Geschäftsführer:<br>Dr. Tim Elsner</p>
+        </div>
+        <div class="imp-block">
+          <h3>Kontakt</h3>
+          <p>Telefon: +49 177 1426998<br>E-Mail: <a href="mailto:info@vyyo.gg">info@vyyo.gg</a></p>
+        </div>
+        <div class="imp-block">
+          <h3>Registereintrag</h3>
+          <p>Eintragung im Handelsregister<br>Registergericht: Amtsgericht Aachen<br>Registernummer: HRB 29616</p>
+        </div>
+        <div class="imp-block">
+          <h3>Umsatzsteuer-ID</h3>
+          <p>Umsatzsteuer-Identifikationsnummer<br>gemäß § 27a UStG: DE461167706</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap foot">
+    <span>© 2026 Vyyo.gg</span>
+    <a href="mailto:info@vyyo.gg">info@vyyo.gg</a>
+  </div>
+</footer>
+
+</body>
+</html>
