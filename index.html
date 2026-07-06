@@ -103,6 +103,18 @@
   .talent-intro .spec{font-size:15px;font-weight:600;letter-spacing:.04em;color:var(--ink);margin-top:10px;opacity:.6}
   .talent-intro p{color:var(--muted);font-size:16.5px;margin-top:20px}
 
+  /* Name + Social-Icons in einer Reihe */
+  .talent-head{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .socials{display:inline-flex;gap:10px;flex-shrink:0}
+  .social-link{
+    width:40px;height:40px;border-radius:50%;
+    border:1px solid var(--line);background:var(--surface);color:var(--ink);
+    display:grid;place-items:center;
+    transition:transform .25s var(--ease),border-color .25s,background .25s,color .25s;
+  }
+  .social-link svg{width:20px;height:20px;display:block}
+  .social-link:hover{border-color:var(--purple-bright);background:rgba(193,96,240,.10);color:var(--purple-bright);transform:translateY(-2px)}
+
   /* Masonry-Galerie: Bilder behalten ihr natürliches Seitenverhältnis -> nichts wird abgeschnitten */
   .gallery{columns:3;column-gap:16px}
   .gallery.cols-1{columns:1}
@@ -142,6 +154,16 @@
   .car-dots{display:flex;justify-content:center;gap:10px;margin-top:48px}
   .dot{width:9px;height:9px;border-radius:50%;border:0;background:var(--line);cursor:pointer;padding:0;transition:background .25s,transform .25s}
   .dot.active{background:var(--purple-bright);transform:scale(1.25)}
+
+  /* Lightbox */
+  .lightbox{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;padding:40px;background:rgba(10,5,16,.85);backdrop-filter:blur(10px);opacity:0;transition:opacity .3s var(--ease)}
+  .lightbox.open{display:flex;opacity:1}
+  .lightbox img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 30px 80px -20px rgba(0,0,0,.8);transform:scale(.96);transition:transform .3s var(--ease)}
+  .lightbox.open img{transform:scale(1)}
+  .lightbox-close{position:absolute;top:22px;right:26px;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:grid;place-items:center;transition:border-color .25s,background .25s}
+  .lightbox-close:hover{border-color:var(--purple-bright);background:rgba(193,96,240,.10)}
+  .lightbox-close svg{width:24px;height:24px}
+  .shot .fill{cursor:zoom-in}
 
   /* cta */
   .cta{padding:140px 0;text-align:center;position:relative;overflow:hidden;z-index:1}
@@ -327,6 +349,14 @@
   </div>
 </footer>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Bildansicht">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Schließen">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+  <img id="lightboxImg" src="" alt="">
+</div>
+
 <script>
   var head=document.getElementById('head');
   function onScroll(){head.classList.toggle('scrolled',window.scrollY>20);}
@@ -356,6 +386,9 @@
       },*/
       {
         name:"Krystl Cosplay",
+        // Optional: Link eintragen, dann erscheint das Icon automatisch. Leer lassen = kein Icon.
+        instagram:"https://www.instagram.com/krystals_cosplay/", // z.B. "https://www.instagram.com/krystlcosplay/"
+        tiktok:"",    // z.B. "https://www.tiktok.com/@krystlcosplay"
         spec:["Näharbeiten","Perücken-Styling","Cosplay"],
         layout:"grid-3-center",
         text:"Krystl Cosplay ist seit über 15 Jahren ein wichtiger Teil der Cosplay-Community. Ihr Fachbereich sind vor allem aufwändige und saubere Näharbeiten sowie Perücken-Stylings. Ihr Können in diesen Bereichen hat sie bereits diverse Platzierungen bei verschiedenen Meisterschaften gewinnen lassen. Mittlerweile stellt sie ihre Expertise für viele Meisterschaften als Juror zur Verfügung. Desweiteren hat sie bereits an vielen offiziellen Kostümen für nationale und internationale Kunden mitgewirkt.",
@@ -364,10 +397,12 @@
           {src:"images/krystal/2.jpg",credit:{name:"colourena",url:"https://www.instagram.com/colourena/"}},
           {src:"images/krystal/3.jpg",credit:{name:"ZackBoom",url:"https://www.instagram.com/zackboom_photography/"}},
           {src:"images/krystal/4.jpg",credit:{name:"Pixelrabe",url:"https://www.pixelrabe.de/"}}
-        ]
+        ],
       },
       {
         name:"Nils Beardfoot",
+        instagram:"https://www.instagram.com/nils_beardfoot/",
+        tiktok:"",
         spec:["Lederverarbeitung","Rüstungsbau","Fantasy"],
         text:"Nils Beardfoot ist der Meister, wenn es um die Verarbeitung von Leder geht. Egal welche Form, Farbe oder was für ein Design, für ihn kein Problem. Seit mehreren Jahren bringt er mit seinem einzigartigen Stil einen frischen Wind in die Cosplay-Community und hat es auch geschafft, mit seinen beeindruckenden Kreationen diverse Wettbewerbe zu gewinnen und durfte auch schon seine Expertise als Juror unter Beweis stellen.",
         images:[
@@ -377,6 +412,8 @@
       },
       {
         name:"Frosty Insanity",
+        instagram:"https://www.instagram.com/frosty_insanity/",
+        tiktok:"",
         spec:["Pyrotechniker","3D-Druck","Propbau"],
         text:"Frosty Insanity steht ein wenig im Kontrast zu seinem Namen. Als Pyrotechniker bleibt es in seiner Gegenwart selten kalt. Zudem kombiniert er Kostüm- und Propbau auf einzigartige Art und Weise mit Pyrotechnik und erschafft somit immersive und atemberaubende Kunstwerke.",
         images:[
@@ -388,11 +425,24 @@
       },
       {
         name:"Pixelrabe",
+        instagram:"https://www.instagram.com/pixelrabe/",
+        tiktok:"",
         spec:["Fotografie","Bildbearbeitung"],
         text:"Pixelrabe zaubert einzigartige Bilder mit ausdrucksstarker Stimmung. Egal ob individuelles Shooting oder ein Stand auf einer Messe, bei dem jeder Besucher ein Bild machen kann, es entsteht jedesmal ein beeindruckendes Bild. Mittlerweile ist er aus der Cosplay-Community nicht mehr wegzudenken und bereichert diese enorm.",
         images:[
           {src:"images/raabe/1.jpg"},{src:"images/raabe/2.jpg"},{src:"images/raabe/3.jpg"},
           {src:"images/raabe/4.jpg"},{src:"images/raabe/5.png"},{src:"images/raabe/6.jpg"}
+        ]
+      },
+      {
+        name:"Nihilisticfae",
+        instagram:"https://www.instagram.com/nihilisticfae/",
+        tiktok:"https://www.tiktok.com/@nihilisticfae",
+        spec:["Gaming","Festivals","Streaming","Fashion","Alternative/Goth"],
+        text:"Nihilisticfae ist Content Creatorin und vor allem für ihren Lifestyle- und Gothic-Fashion-Content bekannt. Sie verbindet alternative Mode, kreative Beauty-Looks und persönliche Einblicke in ihren Alltag. Ihre Begeisterung für alles, was etwas düsterer, außergewöhnlicher und abseits des Mainstreams ist, zieht sich wie ein roter Faden durch ihren Content - von Gothic Fashion über Metal-Festivals und Musik bis hin zu Gaming sowie atmosphärischen Fantasy- und Horrorwelten. Eine authentische Mischung aus Lifestyle, Musik, Gaming und alternativer Kultur, die ihre Community begeistert.",
+        images:[
+          {src:"images/fae/1.jpeg"},{src:"images/fae/2.jpeg"},{src:"images/fae/3.jpeg"},
+          {src:"images/fae/4.jpeg"},{src:"images/fae/5.jpeg"}
         ]
       }
     ];
@@ -427,6 +477,33 @@
       return c;
     }
 
+    // Social-Media Icons (inline SVG)
+    var SOCIAL_ICONS={
+      instagram:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>',
+      tiktok:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.28 2.1 1.86 3.62 3.9 3.78v2.62c-1.5 0-2.9-.45-4.02-1.22v5.86c0 3.28-2.66 5.94-5.94 5.94S4.6 17.32 4.6 14.04s2.66-5.94 5.94-5.94c.3 0 .6.02.88.06v2.72a3.24 3.24 0 0 0-.88-.12 3.28 3.28 0 1 0 3.28 3.28V3h2.78z"/></svg>'
+    };
+
+    function buildSocials(t){
+      var defs=[
+        {url:t.instagram,type:'instagram',label:'Instagram'},
+        {url:t.tiktok,   type:'tiktok',   label:'TikTok'}
+      ].filter(function(d){return d.url;}); // nur mit Link
+      if(!defs.length)return null;
+
+      var wrap=document.createElement('div');
+      wrap.className='socials';
+      defs.forEach(function(d){
+        var a=document.createElement('a');
+        a.className='social-link';
+        a.href=d.url;a.target='_blank';a.rel='noopener noreferrer';
+        a.setAttribute('aria-label',t.name+' auf '+d.label);
+        a.title=t.name+' auf '+d.label;
+        a.innerHTML=SOCIAL_ICONS[d.type];
+        wrap.appendChild(a);
+      });
+      return wrap;
+    }
+
     function buildSlide(t){
       var art=document.createElement('article');
       art.className='slide';
@@ -436,11 +513,15 @@
 
       var intro=document.createElement('div');
       intro.className='talent-intro';
+      var thead=document.createElement('div');thead.className='talent-head';
       var h3=document.createElement('h3');h3.textContent=t.name;
+      thead.appendChild(h3);
+      var socials=buildSocials(t);
+      if(socials){thead.appendChild(socials);}
       var spec=document.createElement('div');spec.className='spec';
       spec.textContent=t.spec.join(' · ');
       var p=document.createElement('p');p.textContent=t.text;
-      intro.appendChild(h3);intro.appendChild(spec);intro.appendChild(p);
+      intro.appendChild(thead);intro.appendChild(spec);intro.appendChild(p);
 
       var gal=document.createElement('div');
       gal.className='gallery';
@@ -534,6 +615,38 @@
     },{passive:true});
 
     go(0);
+  })();
+
+  /* ---- Lightbox: Klick auf Bild öffnet die volle Auflösung ---- */
+  (function(){
+    var lb=document.getElementById('lightbox');
+    var lbImg=document.getElementById('lightboxImg');
+    var lbClose=document.getElementById('lightboxClose');
+    if(!lb)return;
+
+    // images/frosty/1.jpg -> images/full/frosty/1.jpg
+    function toFull(src){return src.replace(/\/([^\/]+)\/([^\/]+)$/,'/full/$1/$2');}
+
+    function open(img){
+      lbImg.src=toFull(img.getAttribute('src'));
+      lbImg.alt=img.alt||'';
+      lb.classList.add('open');
+      document.body.style.overflow='hidden';
+    }
+    function close(){
+      lb.classList.remove('open');
+      document.body.style.overflow='';
+      lbImg.src='';
+    }
+
+    // Event-Delegation: funktioniert auch für dynamisch erzeugte Slides
+    document.addEventListener('click',function(e){
+      var img=e.target.closest('.shot .fill');
+      if(img){open(img);}
+    });
+    lbClose.addEventListener('click',close);
+    lb.addEventListener('click',function(e){if(e.target===lb)close();});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('open'))close();});
   })();
 
   /* ---- Reveal beim Scrollen ---- */
