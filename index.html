@@ -115,6 +115,39 @@
   .social-link svg{width:20px;height:20px;display:block}
   .social-link:hover{border-color:var(--purple-bright);background:rgba(193,96,240,.10);color:var(--purple-bright);transform:translateY(-2px)}
 
+  /* Auszeichnung / Trophäen-Icon mit Tooltip */
+  .award{
+    position:relative;width:40px;height:40px;border-radius:50%;
+    border:1px solid rgba(193,96,240,.45);background:rgba(193,96,240,.10);color:var(--purple-bright);
+    display:grid;place-items:center;flex-shrink:0;cursor:default;
+    transition:transform .25s var(--ease),border-color .25s,background .25s;
+  }
+  .award svg{width:20px;height:20px;display:block}
+  .award:hover,.award:focus-visible{border-color:var(--purple-bright);background:rgba(193,96,240,.20);transform:translateY(-2px)}
+  .award .award-tip{
+    position:absolute;left:50%;top:calc(100% + 10px);transform:translateX(-50%) translateY(-4px);
+    white-space:nowrap;pointer-events:none;z-index:5;
+    font-family:"Manrope",sans-serif;font-size:12.5px;font-weight:600;line-height:1;letter-spacing:.01em;
+    padding:9px 14px;border-radius:999px;
+    background:#221534;
+    border:1px solid rgba(193,96,240,.35);color:var(--ink);
+    box-shadow:0 14px 34px -12px rgba(0,0,0,.85);
+    opacity:0;transition:opacity .25s var(--ease),transform .25s var(--ease);
+  }
+  .award .award-tip.multi{
+    display:flex;flex-direction:column;gap:9px;
+    text-align:left;border-radius:14px;padding:13px 16px;line-height:1.25;
+  }
+  .award .award-tip.multi .award-line{position:relative;padding-left:15px}
+  .award .award-tip.multi .award-line::before{
+    content:"";position:absolute;left:0;top:.42em;
+    width:6px;height:6px;border-radius:50%;background:var(--purple-bright);
+  }
+  .award:hover .award-tip,.award:focus-visible .award-tip{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media(max-width:540px){
+    .award .award-tip{white-space:normal;width:min(62vw,240px);text-align:center;line-height:1.35;border-radius:10px}
+  }
+
   /* Masonry-Galerie: Bilder behalten ihr natürliches Seitenverhältnis -> nichts wird abgeschnitten */
   .gallery{columns:3;column-gap:16px}
   .gallery.cols-1{columns:1}
@@ -403,6 +436,7 @@
         name:"Nils Beardfoot",
         instagram:"https://www.instagram.com/nils_beardfoot/",
         tiktok:"",
+        award:"Winner gamescom Cosplay Contest 2026",
         spec:["Lederverarbeitung","Rüstungsbau","Fantasy"],
         text:"Nils Beardfoot ist der Meister, wenn es um die Verarbeitung von Leder geht. Egal welche Form, Farbe oder was für ein Design, für ihn kein Problem. Seit mehreren Jahren bringt er mit seinem einzigartigen Stil einen frischen Wind in die Cosplay-Community und hat es auch geschafft, mit seinen beeindruckenden Kreationen diverse Wettbewerbe zu gewinnen und durfte auch schon seine Expertise als Juror unter Beweis stellen.",
         images:[
@@ -443,6 +477,7 @@
         name:"Cheesu Cosplay",
         instagram:"https://www.instagram.com/cheesu_cosplay/",
         tiktok:"https://www.tiktok.com/@cheesu_cosplay",
+        award:"Winner DoKomi League of Legends Cosplay Contest 2025",
         spec:["Cosplay", "3D-Modellierung", "Rüstungsbau"],
         text:"Cheesu ist bereits seit 2011 ein fester Teil der Cosplay-Community und erweckt seither verschiedenste Charaktere zum Leben. Handwerklich ist sie ein Allrounder, spezialisiert sich aber mit besonderer Leidenschaft auf Rüstungsbau, 3D-Modellierung und -Druck. Qualität und Detailgetreue stehen bei all ihren Projekten besonders im Fokus. Diese Hingabe wurde bei mehreren nationalen und internationalen Cosplay-Contests mit Preisen ausgezeichnet. Ihre langjährige Erfahrung brachte sie wiederholt als Jurymitglied bei Wettbewerben mit ein. In den letzten Jahren hat Cheesu bei diversen Aufträgen und Projekten bekannter Publisher mitgewirkt.",
         images:[
@@ -452,6 +487,30 @@
           {src:"images/cheesu/4.jpg"},
           {src:"images/cheesu/5.jpg"},
           {src:"images/cheesu/6.jpg"}
+        ]
+      },
+      {
+        name:"AllariaCosplay",
+        instagram:"https://www.instagram.com/allariacosplay/",
+        tiktok:"",
+        twitch:"https://www.twitch.tv/allariacosplay/",
+        award:[
+          "First Place - Samsung Cosplay Contest Gamescom '26",
+          "First Place - World of Warcraft Cosplay Contest Gamescom '25",
+          "Most Badass - Essence Cosplay Contest '23",
+          "Best Armor - Cosplay Legends '23",
+          "Judge Favorite - Dreamhack '23",
+          "Chat Favorite - Essence Cosplay Contest '22"
+        ],
+        spec:["Cosplay","Gaming","R\u00fcstungsbau","Streaming"],
+        text:"Allaria verbindet Cosplay mit ihrer Leidenschaft f\u00fcr Gaming. Ihre detailreichen Projekte verbinden komplexen R\u00fcstungs- und Propbau mit spektakul\u00e4ren Spezialeffekten wie LEDs und Rauch. Ihre Cosplays wurden bereits mehrfach bei nationalen und internationalen Wettbewerben ausgezeichnet. Als Twitch Partnerin teilt Allaria ihre Leidenschaft f\u00fcr Gaming und Cosplay auch mit ihrer Community. Zus\u00e4tzlich ist sie als World of Warcraft Partnerin eng mit dem Spiel verbunden. In ihren Streams dreht sich daher vieles um World of Warcraft und Cosplay Crafting.",
+        images:[
+          {src:"images/allaria/1.jpg",credit:{name:"theoptimisticfilmmaker",url:"https://www.instagram.com/theoptimisticfilmmaker/"}},
+          {src:"images/allaria/2.jpg",credit:{name:"cospixcreation",url:"https://www.instagram.com/cospixcreation/"}},
+          {src:"images/allaria/3.jpg",credit:{name:"cospixcreation",url:"https://www.instagram.com/cospixcreation/"}},
+          {src:"images/allaria/4.jpg",credit:{name:"kingsmanfotos",url:"https://www.instagram.com/kingsmanfotos/"}},
+          {src:"images/allaria/6.jpg",credit:{name:"vonkoenigsmarck",url:"https://www.instagram.com/vonkoenigsmarck/"}},
+          {src:"images/allaria/5.jpg",credit:{name:"bard.shots",url:"https://www.instagram.com/bard.shots/"}}
         ]
       },
       {
@@ -511,13 +570,15 @@
     // Social-Media Icons (inline SVG)
     var SOCIAL_ICONS={
       instagram:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.6" cy="6.4" r="1.1" fill="currentColor" stroke="none"/></svg>',
-      tiktok:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.28 2.1 1.86 3.62 3.9 3.78v2.62c-1.5 0-2.9-.45-4.02-1.22v5.86c0 3.28-2.66 5.94-5.94 5.94S4.6 17.32 4.6 14.04s2.66-5.94 5.94-5.94c.3 0 .6.02.88.06v2.72a3.24 3.24 0 0 0-.88-.12 3.28 3.28 0 1 0 3.28 3.28V3h2.78z"/></svg>'
+      tiktok:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.6 3c.28 2.1 1.86 3.62 3.9 3.78v2.62c-1.5 0-2.9-.45-4.02-1.22v5.86c0 3.28-2.66 5.94-5.94 5.94S4.6 17.32 4.6 14.04s2.66-5.94 5.94-5.94c.3 0 .6.02.88.06v2.72a3.24 3.24 0 0 0-.88-.12 3.28 3.28 0 1 0 3.28 3.28V3h2.78z"/></svg>',
+      twitch:'<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.3 2 2.6 6.2v13.1h4.6V22h2.6l2.6-2.7h3.8L21.4 14V2H4.3zm15.4 11.2-3 3h-4.6l-2.6 2.6v-2.6H5.9V3.7h13.8v9.5zM15.6 6.9v5.2h-1.7V6.9h1.7zm-4.6 0v5.2H9.3V6.9H11z"/></svg>'
     };
 
     function buildSocials(t){
       var defs=[
         {url:t.instagram,type:'instagram',label:'Instagram'},
-        {url:t.tiktok,   type:'tiktok',   label:'TikTok'}
+        {url:t.tiktok,   type:'tiktok',   label:'TikTok'},
+        {url:t.twitch,   type:'twitch',   label:'Twitch'}
       ].filter(function(d){return d.url;}); // nur mit Link
       if(!defs.length)return null;
 
@@ -535,6 +596,38 @@
       return wrap;
     }
 
+    // Trophäen-Icon mit Tooltip (nur wenn t.award gesetzt ist)
+    var TROPHY_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h2.5a2.5 2.5 0 0 1 0 5H17"/><path d="M7 5H4.5a2.5 2.5 0 0 0 0 5H7"/><path d="M12 14v3"/><path d="M9 20h6"/><path d="M10 17h4l.6 3h-5.2l.6-3z"/></svg>';
+
+    function buildAward(t){
+      if(!t.award)return null;
+      var list=Array.isArray(t.award)?t.award:[t.award];
+      list=list.filter(function(a){return a;});
+      if(!list.length)return null;
+
+      var el=document.createElement('span');
+      el.className='award';
+      el.setAttribute('tabindex','0');
+      el.setAttribute('role','img');
+      el.setAttribute('aria-label','Auszeichnungen: '+list.join('; '));
+      el.innerHTML=TROPHY_ICON;
+
+      var tip=document.createElement('span');
+      tip.className='award-tip'+(list.length>1?' multi':'');
+      if(list.length>1){
+        list.forEach(function(a){
+          var line=document.createElement('span');
+          line.className='award-line';
+          line.textContent=a;
+          tip.appendChild(line);
+        });
+      }else{
+        tip.textContent=list[0];
+      }
+      el.appendChild(tip);
+      return el;
+    }
+
     function buildSlide(t){
       var art=document.createElement('article');
       art.className='slide';
@@ -549,6 +642,8 @@
       thead.appendChild(h3);
       var socials=buildSocials(t);
       if(socials){thead.appendChild(socials);}
+      var award=buildAward(t);
+      if(award){thead.appendChild(award);}
       var spec=document.createElement('div');spec.className='spec';
       spec.textContent=t.spec.join(' · ');
       var p=document.createElement('p');p.textContent=t.text;
